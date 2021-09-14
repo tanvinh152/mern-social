@@ -37,6 +37,20 @@ io.on("connection", (socket) => {
         });
     });
 
+    socket.on("ONLINE_USER", (userId) => {
+        let user = users.find((us) => us.userId === userId);
+        if (user) {
+            let userListOnline = users.filter((us) =>
+                us.followings.find((id) => id === userId)
+            );
+            userListOnline = userListOnline.map((us) => us.userId);
+            console.log(userListOnline);
+            socket.emit("ONLINE_USER", userListOnline);
+        }else{
+            console.log('asdasd');
+        }
+    });
+
     // disconnect
     socket.on("disconnect", () => {
         console.log("a user disconnected");
